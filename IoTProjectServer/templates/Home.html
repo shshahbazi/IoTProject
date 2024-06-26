@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .input-container {
+      margin-bottom: 20px;
+    }
+    label {
+      color: #333;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="range"] {
+      width: 80%;
+      margin: 10px 0;
+    }
+    input[type="submit"], button {
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      margin-bottom: 10px;
+      width: 100%;
+      cursor: pointer;
+      color: white;
+    }
+    input[type="submit"] {
+      background-color: #4CAF50;
+    }
+    button {
+      background-color: #ff5722;
+    }
+    iframe {
+      margin-top: 20px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>ESP32-CAM Control</h1>
+    <form action="" method="get" class="form-example">
+      <div class="input-container">
+        <label for="On">Time(ms) on: <span id="onValue">10000</span></label>
+        <input type="range" name="On" id="On" min="0" max="20000" value="10000" oninput="updateOnValue(this.value)">
+      </div>
+      <div class="input-container">
+        <label for="Off">Time(ms) off: <span id="offValue">10000</span></label>
+        <input type="range" name="Off" id="Off" min="0" max="20000" value="10000" oninput="updateOffValue(this.value)">
+      </div>
+      <input type="submit" value="Send">
+    </form>
+    <button onclick="toggleLED('ON')">Turn LED ON</button>
+    <button onclick="toggleLED('OFF')">Turn LED OFF</button>
+    <iframe src="http://your_esp32cam_ip_address:81/stream" height="240"></iframe>
+  </div>
+
+  <script>
+    function updateOnValue(value) {
+      document.getElementById('onValue').innerText = value;
+    }
+
+    function updateOffValue(value) {
+      document.getElementById('offValue').innerText = value;
+    }
+
+    function toggleLED(state) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "/" + state, true);
+      xhr.send();
+    }
+  </script>
+</body>
+</html>
